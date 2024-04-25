@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:playlistme/constants/spotify.dart';
 import 'package:playlistme/models/albumlist.dart';
 import 'package:playlistme/view/page/album.dart';
+import 'package:playlistme/view/widget/song_listtile.dart';
 
 import 'package:spotify/spotify.dart';
 import 'package:flutter/src/widgets/image.dart' as img;
@@ -93,13 +94,6 @@ class _SearchPageState extends State<SearchPage> {
             if (item is AlbumSimple) {
               newResults.add(AlbumList.fromAlbumSimple(item));
             }
-            // else if (item is Artist) {
-            //   newResults.add(SearchResult.fromArtist(item));
-            // } else if (item is PlaylistSimple) {
-            //   newResults.add(SearchResult.fromPlaylistSimple(item));
-            // } else if (item is Track) {
-            //   newResults.add(SearchResult.fromTrack(item));
-            // }
           }
         }
       }
@@ -152,18 +146,7 @@ class _SearchPageState extends State<SearchPage> {
                       // Display the first image if available
                       String imageUrl =
                           result.images.isNotEmpty ? result.images[0] : '';
-                      return ListTile(
-                        leading: imageUrl.isNotEmpty
-                            ? img.Image.network(imageUrl)
-                            : null,
-                        title: Text(result.name),
-                        subtitle: Text(result.type),
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  AlbumPage(albumId: result.id)));
-                        },
-                      );
+                      return SongListTile(imageUrl: imageUrl, result: result);
                     },
                   ),
                 ),

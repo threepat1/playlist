@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter/src/widgets/image.dart' as img;
 import 'package:playlistme/constants/spotify.dart';
 import 'package:playlistme/models/albumlist.dart';
-import 'package:playlistme/view/page/album.dart';
-
+import 'package:playlistme/view/widget/song_grid.dart';
 import 'package:spotify/spotify.dart';
-import 'package:spotify/src/models/_models.dart' as spot;
 
 class AlbumListScreen extends StatefulWidget {
   const AlbumListScreen({Key? key}) : super(key: key);
@@ -65,53 +62,7 @@ class _AlbumListScreenState extends State<AlbumListScreen> {
       itemBuilder: (context, index) {
         final album = albums[index];
         String imageUrl = album.images.isNotEmpty ? album.images[0] : '';
-        return GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => AlbumPage(albumId: album.id)));
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  // changes position of shadow
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: imageUrl.isNotEmpty
-                      ? img.Image.network(
-                          imageUrl,
-                          fit: BoxFit.cover,
-                        )
-                      : Placeholder(), // Placeholder if no image available
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        album.name!,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
+        return SongGrid(album: album, imageUrl: imageUrl);
       },
     );
   }
